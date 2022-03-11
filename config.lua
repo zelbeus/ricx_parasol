@@ -1,5 +1,6 @@
 Config = {}
-
+Config.vorp = true
+Config.redm = false
 
 Config.Prompts = {
     Title = "Parasol",
