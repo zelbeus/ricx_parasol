@@ -4,7 +4,7 @@ local EndPrompt
 local ParasolGroup = GetRandomIntInRange(0, 0xffffff)
 local parasolObj
 
-function CreateParasol()
+function CreateParasol(nmodel)
     if parasolObj ~= nil then
         DeleteEntity(parasolObj)
         SetEntityAsNoLongerNeeded(parasolObj)
@@ -13,6 +13,9 @@ function CreateParasol()
     local pedp = PlayerPedId()
     local pc = GetEntityCoords(pedp)
     local model = Config.Parasol.model
+    if nmodel then 
+	model = nmodel
+    end
     RequestModel(model)
     while not HasModelLoaded(model) do
         Wait(10)
@@ -96,11 +99,11 @@ end)
 
 
 RegisterNetEvent('ricx_parasol:start')
-AddEventHandler('ricx_parasol:start', function()
+AddEventHandler('ricx_parasol:start', function(model)
     local playerp = PlayerPedId()
     if  not IsEntityDead(playerp) and parasolout == false and GetMount(playerp) == 0 and not IsPedSwimming(playerp) and not IsPedClimbing(playerp) and not IsPedFalling(playerp) then
         parasolout = true
-        CreateParasol()
+        CreateParasol(model)
     else
         TriggerEvent("Notification:left_parasol", Config.Messages.Title, Config.Messages.NoParasol, 'menu_textures', 'stamp_locked_rank', 3000)
     end
